@@ -7,7 +7,7 @@
 公开仓库，任何人都可以克隆或通过 GitHub 的 **Code → Download ZIP** 下载。
 
 ```sh
-git clone https://github.com/landepend/shanshui-courtyard.git
+git clone https://github.com/MatildaHan/shanshui-courtyard.git
 cd shanshui-courtyard
 ```
 
@@ -40,3 +40,48 @@ python start.py
 - `archive/`：历史版本。
 
 构建输出 `dist/`、编辑器缓存、日志和 Blender 自动备份未纳入版本控制。预览版可直接从源码启动。
+
+## 离线单文件与交付包
+
+以下工具均使用 Python 标准库；在 Windows 可把 `python3` 换成 `python`。
+路径由脚本所在位置确定，从其他工作目录调用也可运行，支持空格和中文目录名。
+
+```sh
+python3 tools/build-single.py
+python3 tools/package.py
+```
+
+第一条生成 `dist/shanshui-courtyard-single.html`，可直接用浏览器打开，无需 HTTP 服务或联网。
+第二条会自动重建单文件，再生成 `dist/山水楼阁-Unity准备版.zip`，不需要预先创建 `dist`。
+ZIP 包含 README、源码、模型、Blender/Unity 项目和离线预览；排除编辑器缓存与自动备份。
+
+## 路径与验证
+
+- Blender 脚本从脚本文件、已打开的项目 `.blend` 或当前工作目录寻找项目根目录。
+  通过 MCP 执行代码片段时，先打开本项目的 `.blend`，或从项目根目录启动 Blender。
+- `tests/browser/*.js` 是可由 Playwright 调用的异步函数，第二参数可传 `screenshotDir`；
+  默认截图输出到运行目录下的 `tests/results/browser/screenshots/`。
+  离线检查还需传 `singleFileUrl`（用 Node 的 `pathToFileURL` 从本机路径转换），结束后返回原页面。
+- `tools/verify-unity-mcp.py --server PATH` 可指定本机 MCP 可执行文件；不传时自动查找。
+  MCP 是可选的编辑器自动化工具，浏览器预览与离线打包不依赖它。
+- 可运行不依赖 Unity、Blender 或第三方 Python 包的回归检查：
+
+```sh
+python3 -m unittest discover -s tests -p 'test_*.py' -v
+```
+
+这些检查覆盖干净副本打包、中文与空格路径、异地工作目录、旧预览重建和路径解析，
+不能代替 Unity 编译或 Play Mode 验收。
+
+## 开发规范与检查
+
+开发与提交流程见 [参与开发](CONTRIBUTING.md)，目录、代码、资产和坐标契约见 [项目规范](docs/project-standards.md)，运行端验收见 [测试说明](docs/testing.md)。自动化助手还应遵守 [AGENTS.md](AGENTS.md)。
+
+安装 Python 3.9+ 和 Node.js 24 后运行（Windows 可用 `python` 替代 `python3`）：
+
+```sh
+python3 tools/check-project.py
+python3 -m unittest discover -s tests -p 'test_*.py' -v
+```
+
+GitHub Actions 在 Linux、Windows 执行基础检查；Unity 编译、Play Mode 和 Windows 游戏构建需另行实测。
