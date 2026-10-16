@@ -1,0 +1,141 @@
+{
+  "passed": [
+    "local Blender GLB",
+    "world-coordinate dimensions",
+    "all five component categories",
+    "day and night window lighting",
+    "actual column raycast",
+    "front and bird views",
+    "explicit load-failure notice",
+    "recovery after reload"
+  ],
+  "architecture": {
+    "loaded": true,
+    "error": null,
+    "source": "Blender GLB",
+    "meshes": 45,
+    "triangles": 580864,
+    "materials": 17,
+    "tileCount": null,
+    "parts": {
+      "roof": 10,
+      "dougong": 5,
+      "column": 7,
+      "window": 10,
+      "corridor": 13
+    },
+    "bounds": {
+      "min": [
+        -16.770000457763672,
+        -0.12999999523162842,
+        -14.770000457763672
+      ],
+      "max": [
+        16.770000457763672,
+        12.958931922912598,
+        10.970000267028809
+      ]
+    },
+    "windowLightMaterials": 1,
+    "windowGlow": 0.1
+  },
+  "nightGlow": 1.1,
+  "failureNotice": "Failed to fetch",
+  "final": {
+    "mode": "dusk",
+    "selected": null,
+    "camera": [
+      -1.4,
+      1.9045077030202333,
+      17.957782452863214
+    ],
+    "target": [
+      -1.4,
+      1.1300000000000001,
+      11.8
+    ],
+    "explorer": {
+      "enabled": true,
+      "position": [
+        -1.4,
+        0.08,
+        11.8
+      ],
+      "area": "庭院",
+      "level": 0,
+      "onStairs": false,
+      "moving": false,
+      "yaw": 0,
+      "pitch": 0.12,
+      "character": {
+        "loaded": true,
+        "error": null,
+        "clip": "Idle",
+        "requestedClip": "Idle",
+        "fallback": false,
+        "animationTime": 0.12729999999701977,
+        "skinnedMeshes": 21,
+        "materials": 24,
+        "clips": [
+          "Climb",
+          "Fall",
+          "Glide",
+          "Idle",
+          "Jump",
+          "Land",
+          "Run",
+          "Sprint",
+          "Walk"
+        ],
+        "gliderOpen": 0
+      }
+    },
+    "architecture": {
+      "loaded": true,
+      "error": null,
+      "source": "Blender GLB",
+      "meshes": 45,
+      "triangles": 580864,
+      "materials": 17,
+      "tileCount": 4080,
+      "parts": {
+        "roof": 10,
+        "dougong": 5,
+        "column": 7,
+        "window": 10,
+        "corridor": 13
+      },
+      "bounds": {
+        "min": [
+          -16.770000457763672,
+          -0.12999999523162842,
+          -14.770000457763672
+        ],
+        "max": [
+          16.770000457763672,
+          12.958931922912598,
+          10.970000267028809
+        ]
+      },
+      "assetVersion": "courtyard-anime-v2",
+      "windowLightMaterials": 1,
+      "windowGlow": 0.1
+    },
+    "tiles": 4080,
+    "bambooLeaves": 1750,
+    "instancedBatches": 18,
+    "drawCalls": 219,
+    "triangles": 1620074,
+    "fps": 6
+  },
+  "errors": [],
+  "verified_architecture_asset": {
+    "bytes": 29119160,
+    "sha256": "999e07ff9089763c037b6f249dd8389f525e5ba4995e7c896d864e19861738cd",
+    "scenes": 1,
+    "meshes": 45,
+    "skins": 0,
+    "animations": 0,
+    "atang_nodes": 0
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "status": "Prepared only; Unity Editor unavailable. Brace and asset checks are not compilation or Play Mode tests.",
+  "editor_compiled": false,
+  "play_mode_tested": false,
+  "windows_build_verified": false,
+  "mcp_package": "10.3.0",
+  "gltfast_package": "6.19.0",
+  "character_sha256": "62dd813ab94f15de031fde8b8ece229092ea1ee837c20ef3aac6668ffde1c831",
+  "character_animations": [
+    "Climb",
+    "Fall",
+    "Glide",
+    "Idle",
+    "Jump",
+    "Land",
+    "Run",
+    "Sprint",
+    "Walk"
+  ],
+  "scripts": [
+    {
+      "path": "unity\\Assets\\Editor\\CourtyardBuild.cs",
+      "bytes": 3828,
+      "balanced_braces": true
+    },
+    {
+      "path": "unity\\Assets\\Scripts\\AtangClimbableSurface.cs",
+      "bytes": 639,
+      "balanced_braces": true
+    },
+    {
+      "path": "unity\\Assets\\Scripts\\AtangMotionAnimator.cs",
+      "bytes": 7628,
+      "balanced_braces": true
+    },
+    {
+      "path": "unity\\Assets\\Scripts\\AtangPaperGlider.cs",
+      "bytes": 11959,
+      "balanced_braces": true
+    },
+    {
+      "path": "unity\\Assets\\Scripts\\AtangPlayerController.cs",
+      "bytes": 27243,
+      "balanced_braces": true
+    },
+    {
+      "path": "unity\\Assets\\Scripts\\World\\CourtyardHUD.cs",
+      "bytes": 4392,
+      "balanced_braces": true
+    },
+    {
+      "path": "unity\\Assets\\Scripts\\World\\CourtyardWaterRecovery.cs",
+      "bytes": 335,
+      "balanced_braces": true
+    },
+    {
+      "path": "unity\\Assets\\Scripts\\World\\CourtyardWorld.cs",
+      "bytes": 16757,
+      "balanced_braces": true
+    }
+  ],
+  "architecture_available": true
+}

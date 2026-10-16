@@ -1,0 +1,47 @@
+async (page) => {
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const state=()=>page.evaluate(()=>window.__courtyard.getState());
+  const check=(x,msg)=>{if(!x)throw new Error(msg);};
+  await page.waitForFunction(()=>window.__courtyard?.ready);
+  if((await state()).explorer?.enabled){await page.getByRole('button',{name:'◉ 少女漫游',exact:true}).click();await page.waitForFunction(()=>Math.abs(window.__courtyard.getState().camera[0]-24)<.03);}
+  const initial=await state();check(initial.tiles>5000,'Missing instanced roof tiles');
+  await page.getByRole('button',{name:'☀ 白昼',exact:true}).click();check((await state()).mode==='day','Day mode failed');
+  await page.getByRole('button',{name:'☾ 夜景',exact:true}).click();check((await state()).mode==='night','Night mode failed');
+  await page.screenshot({path:'D:/DesktopFile/game/shanshui-courtyard/docs/screenshots/preview-night.png'});
+  await page.getByRole('button',{name:'◒ 黄昏',exact:true}).click();
+  await page.getByRole('button',{name:'正面',exact:true}).click();
+  await page.waitForFunction(()=>Math.abs(window.__courtyard.getState().camera[0])<.03);
+  const front=await state();check(Math.abs(front.camera[2]-32)<.1,'Front camera wrong');
+  await page.getByRole('button',{name:'鸟瞰',exact:true}).click();
+  await page.waitForFunction(()=>Math.abs(window.__courtyard.getState().camera[1]-40)<.03);
+  const bird=await state();check(bird.camera[1]>front.camera[1],'Bird camera wrong');
+  await page.getByRole('button',{name:'↺ 重置',exact:true}).click();
+  await page.waitForFunction(()=>Math.abs(window.__courtyard.getState().camera[0]-24)<.03);
+  const point=await page.evaluate(()=>window.__courtyard.screenPoint('column'));
+  await page.mouse.click(point.x,point.y);
+  const picked=await state();check(picked.selected==='column','Raycast did not select front column: '+picked.selected);
+  await page.getByRole('button',{name:'关闭构件说明',exact:true}).click();
+  await page.locator('summary').click();
+  await page.getByRole('button',{name:'层叠斗拱',exact:true}).click();
+  check((await state()).selected==='dougong','Guide inspection failed');
+  await page.getByRole('button',{name:'关闭构件说明',exact:true}).click();
+  await page.locator('summary').click();
+  const beforeOrbit=await state();
+  await page.mouse.move(700,550);await page.mouse.down();await page.mouse.move(880,560,{steps:12});await page.mouse.up();
+  await page.waitForFunction(x=>Math.abs(window.__courtyard.getState().camera[0]-x)>.3,beforeOrbit.camera[0]);
+  const beforeZoom=await state();await page.mouse.wheel(0,-400);
+  await page.waitForFunction(p=>{const s=window.__courtyard.getState();return Math.hypot(...s.camera.map((v,i)=>v-s.target[i]))<Math.hypot(...p.camera.map((v,i)=>v-p.target[i]))-.5;},beforeZoom);
+  const beforePan=await state();await page.mouse.move(710,500);await page.mouse.down({button:'right'});await page.mouse.move(760,550,{steps:8});await page.mouse.up({button:'right'});
+  await page.waitForFunction(p=>Math.hypot(...window.__courtyard.getState().target.map((v,i)=>v-p[i]))>.05,beforePan.target);
+  await page.getByRole('button',{name:'↺ 重置',exact:true}).click();
+  await page.waitForFunction(()=>Math.abs(window.__courtyard.getState().camera[0]-24)<.03);
+  await page.screenshot({path:'D:/DesktopFile/game/shanshui-courtyard/docs/screenshots/preview-dusk.png'});
+  await page.setViewportSize({width:390,height:844});
+  const mobile=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,toolbar:document.querySelector('.toolbar').getBoundingClientRect().toJSON()}));
+  check(mobile.scroll<=mobile.width,'Mobile horizontal overflow');check(mobile.toolbar.left>=0&&mobile.toolbar.right<=390,'Mobile controls clipped');
+  await page.getByRole('button',{name:'☾ 夜景',exact:true}).click();check((await state()).mode==='night','Mobile mode button failed');
+  await page.screenshot({path:'D:/DesktopFile/game/shanshui-courtyard/docs/screenshots/courtyard-mobile.png'});
+  await page.setViewportSize({width:1440,height:1000});await page.getByRole('button',{name:'◒ 黄昏',exact:true}).click();
+  check(errors.length===0,'Runtime errors: '+errors.join(';'));
+  return {passed:['day/dusk/night','front/bird/reset','raycast column selection','dougong inspector','mouse orbit','wheel zoom','right-button pan','mobile layout and controls'],initial,final:await state(),mobile,errors};
+}

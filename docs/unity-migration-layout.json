@@ -1,0 +1,950 @@
+{
+  "schema_version": 1,
+  "status": "Reference extracted from existing Three.js game; no Unity scene has been authored or validated.",
+  "units": "meters",
+  "source_files": [
+    "src/explore.js",
+    "src/scene.js"
+  ],
+  "coordinate_policy": {
+    "canonical": "All coordinates below are existing Three right-handed coordinates. Y up, front entrance and pond on positive Z.",
+    "proposed_unity": "Reflect Z ONCE: Unity(x,y,z)=Three(x,y,-z). Original W direction (-Z) becomes +Z in Unity.",
+    "bounds_conversion": "[x0,x1,z0,z1,y0,y1] -> [x0,x1,-z1,-z0,y0,y1]",
+    "pure_yaw_conversion": "Unity yaw=-Three yaw, provided the model forward basis is also converted.",
+    "importer_warning": "Unity glTF importers may already convert handedness, possibly using a different reflected axis. Verify the landmarks before adding another mirror. One conversion must apply consistently to models, animation, colliders, camera and movement.",
+    "manual_mesh_conversion": "If converting raw vertices yourself, transform normals and tangents and reverse triangle winding after the reflection. Do not do this twice if importer already handles it.",
+    "landmarks": [
+      {
+        "name": "lower entrance",
+        "three": [
+          -1.4,
+          1.04,
+          3.46
+        ],
+        "unity_proposed": [
+          -1.4,
+          1.04,
+          -3.46
+        ]
+      },
+      {
+        "name": "pond",
+        "three": [
+          -8,
+          0,
+          9
+        ],
+        "unity_proposed": [
+          -8,
+          0,
+          -9
+        ]
+      },
+      {
+        "name": "upper stair landing",
+        "three": [
+          3.35,
+          5.68,
+          -2.02
+        ],
+        "unity_proposed": [
+          3.35,
+          5.68,
+          2.02
+        ]
+      }
+    ]
+  },
+  "player": {
+    "spawn": [
+      -1.4,
+      0.08,
+      11.8
+    ],
+    "radius": 0.23,
+    "height_approx": 1.5,
+    "previous_walk_speed": 1.45,
+    "previous_run_speed": 2.8,
+    "initial_yaw_radians": 3.141592653589793
+  },
+  "building": {
+    "lower_floor": 1.04,
+    "upper_floor": 5.68,
+    "terrace_floor": 0.83,
+    "terrace_bounds_xz": [
+      -6.6,
+      6.6,
+      -4.8,
+      4.8
+    ],
+    "lower_room_bounds_xz": [
+      -5.55,
+      5.55,
+      -3.55,
+      3.55
+    ],
+    "upper_room_bounds_xz": [
+      -4.05,
+      4.05,
+      -2.52,
+      2.52
+    ],
+    "lower_entrance": {
+      "center": [
+        -1.4,
+        2.45,
+        3.46
+      ],
+      "width": 2.2,
+      "height": 2.64
+    },
+    "upper_entrance": {
+      "center": [
+        0,
+        6.95,
+        2.42
+      ],
+      "width": 2.4
+    },
+    "entry_steps": {
+      "bounds_xz": [
+        -2.6,
+        2.6,
+        4.55,
+        6
+      ],
+      "height_formula": ".08+(6-z)/1.45*.77",
+      "recommendation": "Smooth ramp collider matching visible steps."
+    },
+    "stairs": {
+      "center_x": 3.35,
+      "mesh_width": 0.96,
+      "controller_x_range": [
+        3,
+        3.72
+      ],
+      "lower_z": 3,
+      "upper_z": -2,
+      "lower_y": 1.04,
+      "upper_y": 5.68,
+      "risers": 25,
+      "rise": 0.1856,
+      "run": 0.2,
+      "height_formula": "1.04+clamp((3-z)/5,0,1)*4.64",
+      "landing_z": -2.02,
+      "recommendation": "Continuous invisible ramp; preserve upper-floor stair opening."
+    },
+    "upper_floor_segments": [
+      {
+        "center": [
+          -1.2,
+          5.51,
+          0
+        ],
+        "size": [
+          7.4,
+          0.25,
+          6.7
+        ]
+      },
+      {
+        "center": [
+          3.7,
+          5.51,
+          2.3
+        ],
+        "size": [
+          2.4,
+          0.25,
+          2.1
+        ]
+      },
+      {
+        "center": [
+          3.7,
+          5.51,
+          -2.84
+        ],
+        "size": [
+          2.4,
+          0.25,
+          1.02
+        ]
+      },
+      {
+        "center": [
+          3.2,
+          5.55,
+          -2.03
+        ],
+        "size": [
+          1.4,
+          0.25,
+          0.65
+        ]
+      }
+    ],
+    "wall_furniture_bounds": [
+      [
+        -5.54,
+        -5.31,
+        -3.55,
+        3.55,
+        0.8,
+        4.1
+      ],
+      [
+        5.31,
+        5.54,
+        -3.55,
+        3.55,
+        0.8,
+        4.1
+      ],
+      [
+        -5.54,
+        5.54,
+        -3.55,
+        -3.32,
+        0.8,
+        4.1
+      ],
+      [
+        -5.54,
+        -2.51,
+        3.32,
+        3.59,
+        0.8,
+        4.1
+      ],
+      [
+        -0.29,
+        5.54,
+        3.32,
+        3.59,
+        0.8,
+        4.1
+      ],
+      [
+        -4.05,
+        -3.82,
+        -2.52,
+        2.52,
+        5.5,
+        8.4
+      ],
+      [
+        3.82,
+        4.05,
+        -2.52,
+        2.52,
+        5.5,
+        8.4
+      ],
+      [
+        -4.05,
+        4.05,
+        -2.52,
+        -2.3,
+        5.5,
+        8.4
+      ],
+      [
+        -4.05,
+        -1.2,
+        2.3,
+        2.55,
+        5.5,
+        8.4
+      ],
+      [
+        1.2,
+        4.05,
+        2.3,
+        2.55,
+        5.5,
+        8.4
+      ],
+      [
+        -2.1,
+        -0.1,
+        -1.3,
+        -0.1,
+        0.9,
+        1.9
+      ],
+      [
+        -3.3,
+        -2.7,
+        -1.1,
+        -0.3,
+        0.9,
+        1.9
+      ],
+      [
+        0.5,
+        1.1,
+        -1.1,
+        -0.3,
+        0.9,
+        1.9
+      ],
+      [
+        -4.8,
+        -2.8,
+        -3.05,
+        -2.48,
+        0.9,
+        3.1
+      ],
+      [
+        -1.7,
+        -0.3,
+        -0.5,
+        0.5,
+        5.5,
+        6.6
+      ]
+    ],
+    "wall_format": [
+      "x_min",
+      "x_max",
+      "z_min",
+      "z_max",
+      "y_min",
+      "y_max"
+    ],
+    "columns": [
+      [
+        -5.6,
+        -3.8,
+        0.83,
+        4.3
+      ],
+      [
+        -5.6,
+        3.8,
+        0.83,
+        4.3
+      ],
+      [
+        -2.8,
+        -3.8,
+        0.83,
+        4.3
+      ],
+      [
+        -2.8,
+        3.8,
+        0.83,
+        4.3
+      ],
+      [
+        0,
+        -3.8,
+        0.83,
+        4.3
+      ],
+      [
+        0,
+        3.8,
+        0.83,
+        4.3
+      ],
+      [
+        2.8,
+        -3.8,
+        0.83,
+        4.3
+      ],
+      [
+        2.8,
+        3.8,
+        0.83,
+        4.3
+      ],
+      [
+        5.6,
+        -3.8,
+        0.83,
+        4.3
+      ],
+      [
+        5.6,
+        3.8,
+        0.83,
+        4.3
+      ],
+      [
+        -5.6,
+        -1.25,
+        0.83,
+        4.3
+      ],
+      [
+        -5.6,
+        1.25,
+        0.83,
+        4.3
+      ],
+      [
+        5.6,
+        -1.25,
+        0.83,
+        4.3
+      ],
+      [
+        5.6,
+        1.25,
+        0.83,
+        4.3
+      ],
+      [
+        -4.15,
+        -2.72,
+        5.55,
+        8.3
+      ],
+      [
+        -4.15,
+        2.72,
+        5.55,
+        8.3
+      ],
+      [
+        -1.4,
+        -2.72,
+        5.55,
+        8.3
+      ],
+      [
+        -1.4,
+        2.72,
+        5.55,
+        8.3
+      ],
+      [
+        1.4,
+        -2.72,
+        5.55,
+        8.3
+      ],
+      [
+        1.4,
+        2.72,
+        5.55,
+        8.3
+      ],
+      [
+        4.15,
+        -2.72,
+        5.55,
+        8.3
+      ],
+      [
+        4.15,
+        2.72,
+        5.55,
+        8.3
+      ],
+      [
+        -10.95,
+        -7.25,
+        0.25,
+        3
+      ],
+      [
+        -9.05,
+        -7.25,
+        0.25,
+        3
+      ],
+      [
+        -10.95,
+        -5.0,
+        0.25,
+        3
+      ],
+      [
+        -9.05,
+        -5.0,
+        0.25,
+        3
+      ],
+      [
+        -10.95,
+        -2.75,
+        0.25,
+        3
+      ],
+      [
+        -9.05,
+        -2.75,
+        0.25,
+        3
+      ],
+      [
+        -10.95,
+        -0.5,
+        0.25,
+        3
+      ],
+      [
+        -9.05,
+        -0.5,
+        0.25,
+        3
+      ],
+      [
+        -10.95,
+        1.75,
+        0.25,
+        3
+      ],
+      [
+        -9.05,
+        1.75,
+        0.25,
+        3
+      ],
+      [
+        -10.95,
+        4.0,
+        0.25,
+        3
+      ],
+      [
+        -9.05,
+        4.0,
+        0.25,
+        3
+      ],
+      [
+        -10.95,
+        6.25,
+        0.25,
+        3
+      ],
+      [
+        -9.05,
+        6.25,
+        0.25,
+        3
+      ],
+      [
+        9.05,
+        -7.25,
+        0.25,
+        3
+      ],
+      [
+        10.95,
+        -7.25,
+        0.25,
+        3
+      ],
+      [
+        9.05,
+        -5.0,
+        0.25,
+        3
+      ],
+      [
+        10.95,
+        -5.0,
+        0.25,
+        3
+      ],
+      [
+        9.05,
+        -2.75,
+        0.25,
+        3
+      ],
+      [
+        10.95,
+        -2.75,
+        0.25,
+        3
+      ],
+      [
+        9.05,
+        -0.5,
+        0.25,
+        3
+      ],
+      [
+        10.95,
+        -0.5,
+        0.25,
+        3
+      ],
+      [
+        9.05,
+        1.75,
+        0.25,
+        3
+      ],
+      [
+        10.95,
+        1.75,
+        0.25,
+        3
+      ],
+      [
+        9.05,
+        4.0,
+        0.25,
+        3
+      ],
+      [
+        10.95,
+        4.0,
+        0.25,
+        3
+      ],
+      [
+        9.05,
+        6.25,
+        0.25,
+        3
+      ],
+      [
+        10.95,
+        6.25,
+        0.25,
+        3
+      ]
+    ],
+    "column_format": [
+      "center_x",
+      "center_z",
+      "y_bottom",
+      "y_top"
+    ],
+    "column_radius": 0.19,
+    "lower_camera_bounds": {
+      "x": [
+        -5,
+        5
+      ],
+      "z": [
+        -3.12,
+        3.15
+      ],
+      "max_y": 3.55
+    },
+    "upper_camera_bounds": {
+      "x": [
+        -3.6,
+        3.6
+      ],
+      "z": [
+        -2.1,
+        2.12
+      ],
+      "max_y": 8.15
+    }
+  },
+  "environment": {
+    "yard_bounds_xz": [
+      -15.7,
+      15.7,
+      -13.8,
+      15.8
+    ],
+    "ground_height": 0.08,
+    "pond": {
+      "center": [
+        -8,
+        0,
+        9
+      ],
+      "outer_size_xz": [
+        11.6,
+        7.6
+      ],
+      "water_height": 0.11,
+      "blocked_bounds_xz": [
+        -13.45,
+        -2.65,
+        5.55,
+        12.45
+      ]
+    },
+    "bridge": {
+      "center_x": -7.55,
+      "center_z": 9,
+      "walk_bounds_xz": [
+        -8.58,
+        -6.52,
+        4.8,
+        13.2
+      ],
+      "height_formula": ".35+.9*(1-((z-9)/4.1)^2)",
+      "half_span": 4.1,
+      "half_width": 1.05,
+      "crest_y": 1.25
+    },
+    "corridors": [
+      {
+        "center": [
+          -10,
+          0,
+          -0.5
+        ],
+        "length": 13.5,
+        "yaw": 1.5707963267948966
+      },
+      {
+        "center": [
+          10,
+          0,
+          -0.5
+        ],
+        "length": 13.5,
+        "yaw": 1.5707963267948966
+      },
+      {
+        "center": [
+          0,
+          0,
+          -9.5
+        ],
+        "length": 22,
+        "yaw": 0
+      }
+    ],
+    "corridor_floor": 0.25,
+    "corridor_width": 2.65,
+    "boundary_walls": [
+      {
+        "center": [
+          -16.3,
+          1.16,
+          -2
+        ],
+        "size": [
+          0.4,
+          2.7,
+          25
+        ]
+      },
+      {
+        "center": [
+          16.3,
+          1.16,
+          -2
+        ],
+        "size": [
+          0.4,
+          2.7,
+          25
+        ]
+      },
+      {
+        "center": [
+          -10.3,
+          1.18,
+          -14.3
+        ],
+        "size": [
+          12,
+          2.8,
+          0.4
+        ]
+      },
+      {
+        "center": [
+          10.3,
+          1.18,
+          -14.3
+        ],
+        "size": [
+          12,
+          2.8,
+          0.4
+        ]
+      },
+      {
+        "center": [
+          0,
+          1.18,
+          -14.3
+        ],
+        "size": [
+          5.9,
+          2.8,
+          0.4
+        ]
+      },
+      {
+        "center": [
+          11.8,
+          0.55,
+          13.4
+        ],
+        "size": [
+          8.7,
+          1.6,
+          0.45
+        ]
+      }
+    ],
+    "pines_x_z_height": [
+      [
+        -12.8,
+        -4.1,
+        8.8
+      ],
+      [
+        13,
+        -9.8,
+        8
+      ],
+      [
+        -13,
+        12.8,
+        5.7
+      ],
+      [
+        15,
+        7,
+        6.7
+      ]
+    ],
+    "bamboo_x_z_count": [
+      [
+        13.1,
+        -3.5,
+        22
+      ],
+      [
+        -13.2,
+        -10.8,
+        13
+      ],
+      [
+        12.7,
+        10.1,
+        11
+      ]
+    ],
+    "stone_lanterns_xz": [
+      [
+        -2,
+        8
+      ],
+      [
+        4.8,
+        8
+      ],
+      [
+        -12,
+        4.6
+      ],
+      [
+        12,
+        4.6
+      ],
+      [
+        -4.8,
+        -6.8
+      ],
+      [
+        4.8,
+        -6.8
+      ]
+    ],
+    "hanging_lanterns": [
+      [
+        -4.2,
+        3.18,
+        4
+      ],
+      [
+        4.2,
+        3.18,
+        4
+      ]
+    ],
+    "interior_lights": [
+      [
+        0,
+        3.35,
+        0
+      ],
+      [
+        -1,
+        7.9,
+        0
+      ]
+    ],
+    "proposed_climb_platform": {
+      "status": "Confirmed new gameplay geometry for Unity, absent from old Three scene",
+      "bounds_xz": [
+        6.35,
+        8.85,
+        7.8,
+        10.2
+      ],
+      "top_y": 4.58,
+      "semantics": [
+        "climbable sides",
+        "walkable top",
+        "glider clearance"
+      ]
+    }
+  },
+  "glb": {
+    "path": "assets/architecture/courtyard.glb",
+    "part_tags": [
+      "roof",
+      "dougong",
+      "column",
+      "window",
+      "corridor"
+    ],
+    "window_material_regex": "Paper|window_glow|lantern|窗纸|灯纸",
+    "contents": "Main building, room furniture, stairs, galleries, perimeter walls. Terrain, pond, bridge, plants and the two hanging lanterns remain separate."
+  },
+  "acceptance_routes": [
+    "Spawn -> steps -> lower entrance -> reception room",
+    "Lower room -> stairs x3.35,z3 -> upper landing x3.35,z-2 -> tea room -> descend",
+    "Spawn -> pond south z14 -> bridge x-7.55 -> crest z9",
+    "Walls and columns block walking",
+    "Proposed southeast rock -> climb top -> jump/glide -> grounded recovery"
+  ],
+  "camera": {
+    "initial_position": [
+      24,
+      18,
+      30
+    ],
+    "initial_target": [
+      0,
+      4,
+      1
+    ],
+    "front_position": [
+      0,
+      12,
+      32
+    ],
+    "front_target": [
+      0,
+      4.7,
+      0
+    ],
+    "bird_position": [
+      21,
+      40,
+      26
+    ],
+    "bird_target": [
+      0,
+      0,
+      0
+    ]
+  }
+}

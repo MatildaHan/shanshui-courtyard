@@ -1,0 +1,14 @@
+[
+  {
+    "source": "assets\\characters\\atang.glb",
+    "target": "unity\\Assets\\Art\\Characters\\atang.glb",
+    "bytes": 5039392,
+    "sha256": "62DD813AB94F15DE031FDE8B8ECE229092EA1EE837C20EF3AAC6668FFDE1C831"
+  },
+  {
+    "source": "assets\\architecture\\courtyard.glb",
+    "target": "unity\\Assets\\Art\\Architecture\\courtyard.glb",
+    "bytes": 29119160,
+    "sha256": "999E07FF9089763C037B6F249DD8389F525E5BA4995E7C896D864E19861738CD"
+  }
+]

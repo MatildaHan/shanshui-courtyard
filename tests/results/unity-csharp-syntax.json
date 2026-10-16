@@ -1,0 +1,81 @@
+{
+  "checkedAtUtc": "2026-10-15T06:28:54.9754352Z",
+  "checker": "Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText",
+  "scope": "C# syntax parsing only. This is NOT Unity assembly compilation, API/type checking, a build, or Play Mode validation.",
+  "powershellVersion": "7.6.5",
+  "roslynAssemblyVersion": "5.0.0.0",
+  "roslynAssemblyPath": "C:\\Users\\16171\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\Microsoft.CodeAnalysis.CSharp.dll",
+  "parseLanguageVersion": "CSharp14",
+  "invocationFromWorkspace": "pwsh -NoProfile -File .\\tools\\check-unity-csharp-syntax.ps1",
+  "checkedFileCount": 8,
+  "totalSyntaxErrors": 0,
+  "unityEditorCompilePerformed": false,
+  "unityApiOrTypeCheckPerformed": false,
+  "playModePerformed": false,
+  "files": [
+    {
+      "path": "unity/Assets/Editor/CourtyardBuild.cs",
+      "sha256": "C00824363F4450B185A4F9A63CF4CAA67477D56DF35CF6CBB8A8A00F0B049905",
+      "bytes": 3828,
+      "errorCount": 0,
+      "diagnosticCount": 0,
+      "diagnostics": []
+    },
+    {
+      "path": "unity/Assets/Scripts/AtangClimbableSurface.cs",
+      "sha256": "8A9238A216FDC78C8E4053C16F79CFD10627C20B1C77AB0BB8156289548EDF8E",
+      "bytes": 639,
+      "errorCount": 0,
+      "diagnosticCount": 0,
+      "diagnostics": []
+    },
+    {
+      "path": "unity/Assets/Scripts/AtangMotionAnimator.cs",
+      "sha256": "9E31A20DEBF5A234B5F81040A07DFD0F827E1084AAB6A93A905A5080602858A5",
+      "bytes": 7628,
+      "errorCount": 0,
+      "diagnosticCount": 0,
+      "diagnostics": []
+    },
+    {
+      "path": "unity/Assets/Scripts/AtangPaperGlider.cs",
+      "sha256": "7FF25BDBADF265C708DCFE98299777C13DF6E3324582F140AA6C9AF5443C4AD8",
+      "bytes": 11959,
+      "errorCount": 0,
+      "diagnosticCount": 0,
+      "diagnostics": []
+    },
+    {
+      "path": "unity/Assets/Scripts/AtangPlayerController.cs",
+      "sha256": "6F61A27782AA3CA503F8EAE21C5FDAC2FAE888E319BA198A74E60616C84369F5",
+      "bytes": 27632,
+      "errorCount": 0,
+      "diagnosticCount": 0,
+      "diagnostics": []
+    },
+    {
+      "path": "unity/Assets/Scripts/World/CourtyardHUD.cs",
+      "sha256": "4974623077B1E2F7C22350957B62F1E3D2E4BBA3C97B8845C7882DC667A238BF",
+      "bytes": 4402,
+      "errorCount": 0,
+      "diagnosticCount": 0,
+      "diagnostics": []
+    },
+    {
+      "path": "unity/Assets/Scripts/World/CourtyardWaterRecovery.cs",
+      "sha256": "616BB901EAD37B6D8405354934543C08750D908A0DDAD72D10D43D86AC182539",
+      "bytes": 335,
+      "errorCount": 0,
+      "diagnosticCount": 0,
+      "diagnostics": []
+    },
+    {
+      "path": "unity/Assets/Scripts/World/CourtyardWorld.cs",
+      "sha256": "1D0FB8962051E3EE1D64AE23E374ED6D5D218B18E96F50A641D8743B66B6E4F1",
+      "bytes": 16870,
+      "errorCount": 0,
+      "diagnosticCount": 0,
+      "diagnostics": []
+    }
+  ]
+}

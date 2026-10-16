@@ -1,0 +1,51 @@
+阿棠 Unity 玩家控制器手动验收
+状态：脚本已落盘；下列运行项目必须在 Unity 6 LTS 导入成功后逐项执行。
+本文件不是已通过的游戏运行记录。
+
+接入
+1. namespace Shanshui。场景中的玩家root原点在脚底、单位米、默认正面+Z，挂AtangPlayerController。
+2. controller.Configure(characterInstance.transform, sceneCamera)。模型应为root子节点，模型缩放由导入/场景侧设置。
+   若导入模型朝后，设置ModelYawOffset=180；不要旋转世界碰撞来补角色朝向。
+3. PlayerSettings Active Input Handling使用Input Manager或Both。直接读取按键与鼠标位置，无需自定义InputManager轴。
+4. 世界实体须有非Trigger Collider；可攀爬物体/其父节点挂AtangClimbableSurface。
+   未标记物体不能攀爬；层掩码climbableLayers默认0，可按需单独开放Climbable层。
+5. 模型动画来源：Animator.runtimeAnimatorController.animationClips或旧Animation组件中的clips。
+   若导入器只返回AnimationClip[]，调用controller.ConfigureAnimations(clips)。无需预制Animator Controller。
+   支持Idle/Walk/Run/Sprint/Jump/Fall/Land/Climb/Glide；缺clip回退到可用clip，不阻止移动。
+6. HUD订阅StatusChanged，或GetStatus()。SetEnabled(false)暂停角色输入及跟随相机；SetEnabled(true)恢复。
+   Reset()回出生点；Reset(position, rotation)用于定点复测，不修改spawnPosition。
+
+坐标
+原Three场景转换Unity：只反转Z一次。出生(-1.4,0.08,-11.8)，W默认朝+Z前门。
+一楼地面1.04；楼梯底约(3.35,1.04,-3)，顶约(3.35,5.68,2)。
+东南望景台x6.35..8.85，z-10.2..-7.8，顶y4.58。
+
+玩法与碰撞
+A. 出生后不穿地。W沿+Z入门；WASD/方向键走，斜向速度与直向相同。
+   正常步行稳定后GetStatus().Speed约1.45m/s；Shift约2.8；Ctrl约4.6。
+B. 一楼绕桌、碰柱和碰墙均停止，不能穿过家具。沿楼梯到二楼，再原路下楼。
+   从开放露台边缘迈出应自然下落，不被旧网页的楼层高度锁定。
+C. Space单击跳跃；碰低天花立即停止上升；落地恢复Grounded。
+   从边缘掉落后正常落地，无悬空/无限连跳；掉到y<-12自动出生点复位。
+D. 按住左/右鼠标旋转相机，滚轮缩放；在一楼、楼梯、二楼、廊柱旁连续旋转。
+   相机应收至墙前，不能通过平滑移动穿入墙后；角色自身不阻挡相机探测。
+
+攀爬、上台顶、滑翔
+E. 在未标记的主楼墙面按E，不进入Climb。面对标记望景台侧壁近距离按E进入Climb。
+   W向上、S向下、A/D横移；X放手后受重力下落；Space蹬墙跳离。
+F. 攀爬到望景台顶边持续W，先抬升再前移，落在台顶；禁止直接穿过顶板/矮檐。
+   封闭台顶上方或放置低檐后重复，应拒绝上台或被碰撞阻挡，不穿模。
+G. 从望景台跳出，离地后第二次Space展开象牙纸鸢；骨架、曲面纸翼、燕尾轮廓可见。
+   飞行前速约3.9、稳定下沉约1.15m/s。WASD可转向；Space/X收翼后继续下落。
+   近地不允许展开；一落地纸鸢即隐藏。室内和落地状态不能悬挂展开翼。
+H. Ctrl持续冲刺耗体力；原地按Ctrl不耗。攀爬（含停留）与滑翔均耗体力。
+   用尽后冲刺停用，攀爬放手/滑翔收翼；不能在空中恢复体力或重复展开。
+   地面等待约0.8秒后恢复，恢复到25%后允许重新消耗动作。
+
+动画、视角与回归
+I. 检查9个状态切换时有约0.16秒融合，脚底不随root motion漂移；小步跑跳不撕裂裙摆。
+   暂时缺失一个clip时可回退，Console无NullReference/Playable错误。
+J. 走动和空中切bird/front再回漫游，角色位置保持、相机恢复，不继续消耗体力。
+   Reset后体力满、翼隐藏、正面+Z、出生位置正确，重复三次不增加Camera/材质/翼对象数量。
+K. Console清空后完整执行A-J，记录Unity版本、实际模型正面偏角、通过/失败项及截图。
+   只有实际Play Mode/构建运行证据可把本文件的待验项目改为通过。

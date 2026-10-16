@@ -1,0 +1,18 @@
+{
+  "bytes": 5039392,
+  "sha256": "62dd813ab94f15de031fde8b8ece229092ea1ee837c20ef3aac6668ffde1c831",
+  "bones": 25,
+  "animations": [
+    "Climb",
+    "Fall",
+    "Glide",
+    "Idle",
+    "Jump",
+    "Land",
+    "Run",
+    "Sprint",
+    "Walk"
+  ],
+  "materials": 21,
+  "embeddedImages": 1
+}

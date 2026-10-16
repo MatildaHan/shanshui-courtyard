@@ -1,0 +1,42 @@
+# Generated distributions
+/dist/
+
+# Local browser automation state
+/.playwright-cli/
+
+# Unity generated and local state
+/unity/[Ll]ibrary/
+/unity/[Tt]emp/
+/unity/[Oo]bj/
+/unity/[Bb]uild/
+/unity/[Bb]uilds/
+/unity/[Ll]ogs/
+/unity/[Uu]ser[Ss]ettings/
+/unity/.vs/
+/unity/*.csproj
+/unity/*.sln
+
+# Godot cache
+.godot/
+
+# Python and Node caches
+__pycache__/
+*.py[cod]
+.venv/
+node_modules/
+
+# Logs and Blender automatic backups
+*.log
+*.blend[0-9]*
+
+# Local credentials
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+
+# Operating system files
+.DS_Store
+Thumbs.db
