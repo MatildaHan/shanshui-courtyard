@@ -25,11 +25,14 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7.0.1
+        with:
+          # Whitespace checks need the parent; depth 1 treats every file as new.
+          fetch-depth: 2
+      - uses: actions/setup-python@v7.0.0
         with:
           python-version: '3.9'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7.1.0
         with:
           node-version: '24'
       - name: Check project contracts and syntax
