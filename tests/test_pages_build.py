@@ -1,5 +1,6 @@
 """Verify publishing preserves model bytes and respects Pages file limits."""
 import copy
+import gzip
 import importlib.util
 import json
 from pathlib import Path
@@ -60,7 +61,7 @@ class PagesBuildTests(unittest.TestCase):
     def test_cli_build_from_other_directory_and_cleans_stale_files(self):
         for folder in ['src', 'vendor', 'assets/architecture', 'assets/characters', 'tools']:
             (self.root / folder).mkdir(parents=True, exist_ok=True)
-        for name in ['index.html', 'src/architecture.js', PAGES.MODEL,
+        for name in ['index.html', 'src/architecture.js', 'src/character.js', 'src/model-loader.js', PAGES.MODEL,
                      'assets/characters/atang.glb', 'tools/build-pages.py']:
             shutil.copy2(ROOT / name, self.root / name)
         output = self.root / 'dist/pages'
@@ -78,6 +79,13 @@ class PagesBuildTests(unittest.TestCase):
         self.assertTrue((output / 'assets/characters/atang.glb').exists())
         self.assertEqual((self.root / 'dist/keep.html').read_text(), 'other delivery')
         self.assertIn('courtyard.gltf', (output / 'src/architecture.js').read_text())
+        for model, module in [(PAGES.MODEL, 'architecture'),
+                              ('assets/characters/atang.glb', 'character')]:
+            packed = (output / (model + '.gz')).read_bytes()
+            original = (self.root / model).read_bytes()
+            self.assertEqual(gzip.decompress(packed), original)
+            self.assertLess(len(packed), len(original) * .4)
+            self.assertIn(model + '.gz', (output / f'src/{module}.js').read_text())
         self.assertEqual((self.root / 'src/architecture.js').read_bytes(),
                          (ROOT / 'src/architecture.js').read_bytes())
         for path in output.rglob('*'):

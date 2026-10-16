@@ -1,4 +1,5 @@
 """Build the browser preview for Pages without changing the shared GLB assets."""
+import gzip
 import json
 from pathlib import Path
 import shutil
@@ -80,6 +81,24 @@ def build(root=ROOT):
     model_url = '../' + Path(MODEL).with_suffix('.gltf').as_posix()
     module.write_text(source.replace('../' + MODEL, model_url),
                       encoding='utf-8')
+
+    # Native gzip decoding keeps transfers small even when Pages serves binary
+    # assets without HTTP compression. Keep the split glTF for older browsers.
+    for model, module_name, fallback in [
+        (MODEL, 'architecture.js', model_url),
+        (character.as_posix(), 'character.js', '../' + character.as_posix()),
+    ]:
+        compressed = Path(model + '.gz')
+        (output / compressed).write_bytes(gzip.compress((root / model).read_bytes(), mtime=0))
+        module = output / 'src' / module_name
+        source = module.read_text(encoding='utf-8')
+        original = "'" + fallback + "'"
+        if source.count(original) != 1:
+            raise ValueError(f'Expected one model URL in src/{module_name}')
+        choice = ("(typeof DecompressionStream === 'function' ? '../" + compressed.as_posix()
+                  + "' : " + original + ')')
+        module.write_text(source.replace(original, choice), encoding='utf-8')
+
     files = [path for path in output.rglob('*') if path.is_file()]
     for path in files:
         if path.stat().st_size > MAX_FILE_BYTES:

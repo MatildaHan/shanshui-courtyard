@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from '../vendor/GLTFLoader.js';
+import { loadModel, modelProgress } from './model-loader.js';
 
 /** Blender-authored character and a locally modelled folding bamboo kite. */
 export function createCharacter() {
@@ -34,7 +35,14 @@ export function createCharacter() {
   const loader = new GLTFLoader(), source = globalThis.__ATANG_GLB__;
   const ready = (source
     ? loader.parseAsync(Uint8Array.from(atob(source),c=>c.charCodeAt(0)).buffer,'')
-    : loader.loadAsync(new URL('../assets/characters/atang.glb',import.meta.url).href))
+    : loadModel(loader, new URL('../assets/characters/atang.glb',import.meta.url).href, {
+      onProgress: progress => {
+        const message = document.querySelector('#load-message');
+        if (message && !message.closest('[role="alert"]') && !document.querySelector('#architecture-status')) {
+          message.textContent = modelProgress('阿棠', progress);
+        }
+      }
+    }))
     .then(gltf=>{
       gltf.scene.traverse(object=>{
         if(!object.isMesh)return;

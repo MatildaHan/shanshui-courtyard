@@ -52,9 +52,11 @@ python3 tools/build-pages.py
 python3 -m http.server 8000 --directory dist/pages
 ```
 
-在 `http://127.0.0.1:8000/` 执行浏览器验收，确认 `courtyard.gltf` 和各个本地 `.bin` 请求成功，
-建筑与角色载入、五类构件和昼夜切换正常。加载失败测试需拦截发布模型的 `.gltf` 或 `.bin` URL，
-源码预览仍拦截 `courtyard.glb`。单元测试检查逐个 buffer view 的字节与完整模型元数据不变、
+在 `http://127.0.0.1:8000/` 执行浏览器验收，确认现代浏览器下载 `courtyard.glb.gz` 与 `atang.glb.gz`，
+建筑与角色载入、五类构件和昼夜切换正常；无原生解压能力的浏览器回退至拆分 glTF。
+加载失败测试需拦截发布模型的 `.glb.gz` URL，源码预览仍拦截 `courtyard.glb`。
+弱网应显示已下载 MB，连续 30 秒没有数据才中止（持续有进度不受旧 60 秒总时限影响），失败后显示原因和重试按钮。
+单元测试检查 gzip 解压逐字节还原共享 GLB、逐个 buffer view 的字节与完整模型元数据不变、
 中文/空格路径、异地工作目录、旧产物清理和文件上限；CI 在 Linux、Windows 构建 Pages 目录。
 本地构建或浏览器通过不等于 Cloudflare 实际部署成功，远端结果需另行确认。
 

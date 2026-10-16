@@ -32,8 +32,10 @@ Pages 的单个文件上限是 25 MiB，建筑 GLB 为 27.77 MiB，不能把仓�
 - 构建输出目录：`dist/pages`
 - 根目录：留空（仓库根目录）
 
-构建工具仅使用 Python 标准库，将建筑 GLB 无损重打包为 glTF 和多个不超过 16 MiB 的本地数据文件，
-保留几何、材质、坐标和构件标识。只发布浏览器所需资源，并检查所有输出文件不超过 25 MiB。
+构建工具仅使用 Python 标准库，将建筑和角色 GLB 无损 gzip 压缩；现代浏览器使用原生
+`DecompressionStream` 解压，模型下载量从约 32.6 MiB 降到 7.3 MiB，并显示下载进度。
+不支持原生解压的旧浏览器继续加载拆分 glTF 与本地 buffer（每个不超过 16 MiB）及角色 GLB。
+保留几何、材质、坐标、动画和构件标识，检查所有输出文件不超过 25 MiB。
 共享 GLB、Unity 副本与离线单文件流程不变；`dist/pages/` 是生成目录，不提交。
 限制与设置详见 [Pages 文件限制](https://developers.cloudflare.com/pages/platform/limits/) 和
 [构建配置](https://developers.cloudflare.com/pages/configuration/build-configuration/)。

@@ -69,6 +69,6 @@ export function createExplorer({scene,camera,controls,canvas}){
   canvas.addEventListener('wheel',e=>{if(enabled){distance=THREE.MathUtils.clamp(distance+e.deltaY*.004,2.4,8);e.preventDefault();}},{passive:false});
   document.querySelectorAll('[data-move]').forEach(b=>{b.addEventListener('pointerdown',e=>{keys.add(b.dataset.move);b.setPointerCapture(e.pointerId);e.preventDefault();});for(const event of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(event,()=>keys.delete(b.dataset.move));});
   girl.rotation.y=Math.PI;
-  return {update,setEnabled,reset,get enabled(){return enabled;},get moving(){return moving;},getState:()=>({enabled,position:position.toArray(),area,level,onStairs,moving,yaw,pitch,character:character.getState()})};
+  return {update,setEnabled,reset,ready:character.ready,get enabled(){return enabled;},get moving(){return moving;},getState:()=>({enabled,position:position.toArray(),area,level,onStairs,moving,yaw,pitch,character:character.getState()})};
 }
 

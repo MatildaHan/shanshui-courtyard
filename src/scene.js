@@ -155,4 +155,30 @@ function animate(){requestAnimationFrame(animate);const dt=clock.getDelta(),t=cl
  renderer.render(scene,camera);frames++;if(performance.now()-lastTick>1000){fps=Math.round(frames*1000/(performance.now()-lastTick));frames=0;lastTick=performance.now();}}
 animate();renderer.shadowMap.autoUpdate=false;sun.shadow.needsUpdate=true;
 window.__courtyard={ready:false,getState:()=>({mode,selected,camera:camera.position.toArray(),target:controls.target.toArray(),explorer:explorer.getState(),architecture:architecture.getState(),tiles:architecture.getState().tileCount,bambooLeaves:bambooMatrices.length,instancedBatches:buckets.size,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,fps}),screenPoint:key=>{const p=info[key][4].clone().project(camera);return{x:(p.x*.5+.5)*innerWidth,y:(-p.y*.5+.5)*innerHeight};}};
-architecture.ready.then(()=>{window.__courtyard.ready=architecture.getState().loaded;$('#loading')?.classList.add('hide');setTimeout(()=>$('#loading')?.remove(),900);});
+function updateLoading() {
+  const building = architecture.getState(), character = explorer.getState().character;
+  const error = building.error || character.error;
+  if (error) {
+    if ($('#retry-loading')) return;
+    $('#loading').setAttribute('role', 'alert');
+    $('#loading .spinner').hidden = true;
+    $('#loading p').textContent = '暂时未能入画';
+    $('#load-message').textContent = error;
+    const retry = document.createElement('button');
+    retry.id = 'retry-loading';
+    retry.textContent = '重新加载';
+    Object.assign(retry.style, { margin: '20px auto 0', padding: '10px 24px', background: '#d8b878', color: '#273831', border: '0', borderRadius: '6px' });
+    retry.addEventListener('click', () => location.reload());
+    $('#loading').appendChild(retry);
+    return;
+  }
+  if (!building.loaded || !character.loaded) {
+    if (building.loaded) $('#load-message').textContent = '建筑已载入，正在等待阿棠模型…';
+    return;
+  }
+  window.__courtyard.ready = building.loaded && character.loaded;
+  $('#loading')?.classList.add('hide');
+  setTimeout(() => $('#loading')?.remove(), 900);
+}
+architecture.ready.then(updateLoading);
+explorer.ready.then(updateLoading);

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from '../vendor/GLTFLoader.js';
+import { loadModel, modelProgress } from './model-loader.js';
 
 const PARTS = ['roof', 'dougong', 'column', 'window', 'corridor'];
 
@@ -46,13 +47,15 @@ export function createArchitecture({ scene, pickables, onLoaded }) {
         : embedded;
       return loader.parseAsync(buffer, '');
     }
-    return loader.loadAsync(new URL('../assets/architecture/courtyard.glb', import.meta.url).href);
+    return loadModel(loader, new URL('../assets/architecture/courtyard.glb', import.meta.url).href, {
+      onProgress: progress => {
+        status.textContent = modelProgress('听雨阁', progress);
+        const message = document.querySelector('#load-message');
+        if (message && !message.closest('[role="alert"]')) message.textContent = status.textContent;
+      }
+    });
   }
-  let timer;
-  const ready = Promise.race([
-    load(),
-    new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('建筑文件加载超时')), 60000); })
-  ]).then(gltf => {
+  const ready = load().then(gltf => {
     const materials = new Set(), meshes = [], parts = Object.fromEntries(PARTS.map(part => [part, 0]));
     let triangles = 0;
     let tileCount = gltf.scene.userData.tileCount ?? gltf.asset?.extras?.tileCount;
@@ -93,11 +96,11 @@ export function createArchitecture({ scene, pickables, onLoaded }) {
   }).catch(reason => {
     state.error = reason.message || String(reason);
     status.setAttribute('role', 'alert');
-    status.textContent = '听雨阁建筑加载失败，请刷新页面或重新启动本地服务。';
+    status.textContent = '听雨阁建筑加载失败：' + state.error;
     status.title = state.error;
     status.style.borderColor = '#d69d86';
     console.error('Courtyard architecture:', reason);
-  }).finally(() => clearTimeout(timer));
+  });
 
   return {
     group, ready, setLighting,

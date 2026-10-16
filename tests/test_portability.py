@@ -31,7 +31,7 @@ class PackagingTests(unittest.TestCase):
             '<script type="importmap">{}</script><script type="module" src="./src/scene.js"></script>', encoding='utf-8')
         for name in ['three.module', 'OrbitControls', 'Reflector', 'RoomEnvironment', 'BufferGeometryUtils', 'GLTFLoader']:
             (self.root / 'vendor' / (name + '.js')).write_text('// fixture', encoding='utf-8')
-        for name in ['character', 'explore', 'architecture', 'scene']:
+        for name in ['character', 'explore', 'architecture', 'scene', 'model-loader']:
             (self.root / 'src' / (name + '.js')).write_text('// fixture', encoding='utf-8')
         doc = {'animations': [{'name': name} for name in ['Idle', 'Walk', 'Run', 'Sprint', 'Jump', 'Fall', 'Land', 'Climb', 'Glide']],
                'skins': [{'joints': list(range(25))}], 'materials': [], 'buffers': [], 'images': []}
