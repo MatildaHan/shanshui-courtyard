@@ -23,6 +23,30 @@ python start.py
 
 启动后会自动打开浏览器。第三方 JavaScript 库和模型已包含在仓库内，无需 npm 安装。
 
+## Cloudflare Pages 部署浏览器预览
+
+Pages 的单个文件上限是 25 MiB，建筑 GLB 为 27.77 MiB，不能把仓库根目录直接作为发布目录。
+在 Pages 的构建设置中选择框架 `None`，填写：
+
+- 构建命令：`python3 tools/build-pages.py`
+- 构建输出目录：`dist/pages`
+- 根目录：留空（仓库根目录）
+
+构建工具仅使用 Python 标准库，将建筑 GLB 无损重打包为 glTF 和多个不超过 16 MiB 的本地数据文件，
+保留几何、材质、坐标和构件标识。只发布浏览器所需资源，并检查所有输出文件不超过 25 MiB。
+共享 GLB、Unity 副本与离线单文件流程不变；`dist/pages/` 是生成目录，不提交。
+限制与设置详见 [Pages 文件限制](https://developers.cloudflare.com/pages/platform/limits/) 和
+[构建配置](https://developers.cloudflare.com/pages/configuration/build-configuration/)。
+
+本地检查发布目录：
+
+```sh
+python3 tools/build-pages.py
+python3 -m http.server 8000 --directory dist/pages
+```
+
+打开 `http://127.0.0.1:8000/` 验证建筑载入与交互。已有 Pages 项目需保存上述构建设置后重新部署。
+
 ## Unity 项目
 
 使用 Unity Hub 打开 `unity` 文件夹。编辑器版本见 `unity/ProjectSettings/ProjectVersion.txt`，依赖见 `unity/Packages/manifest.json`；首次打开需要联网安装依赖，并在系统中安装 Git。

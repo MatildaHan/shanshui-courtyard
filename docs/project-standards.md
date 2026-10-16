@@ -33,6 +33,7 @@ Unity 是 Windows 游戏主工程；浏览器提供可离线运行的模型展�
 ## 资源与依赖
 
 - `assets/architecture/courtyard.glb` 和 `assets/characters/atang.glb` 为共享模型基准；Unity `Assets/Art/` 的对应副本必须逐字节相同。
+- Pages 发布使用 `tools/build-pages.py` 生成独立的 `dist/pages/`；为满足单文件 25 MiB 限制，建筑派生为 glTF 与多个本地 buffer，单个 buffer 不超过 16 MiB。该发布格式不替代共享 GLB，不引入远程资源；不得直接发布整个源码目录。
 - GLB 使用 glTF 2.0，纹理和 buffer 内嵌，避免外部路径。保留角色 25 骨骼和九个动作：`Idle`、`Walk`、`Run`、`Sprint`、`Jump`、`Fall`、`Land`、`Climb`、`Glide`。更改契约必须同时更新消费者、检查和文档。
 - 建筑保留 `roof`、`dougong`、`column`、`window`、`corridor` 五类 `extras.part` 标识，供真实几何点选使用。不得以对象命名猜测替代结构标识。
 - 保留源 `.blend`、导出 GLB 和可复核脚本；修改模型时记录 Blender 版本、导出参数、网格/三角形数、文件大小和截图。历史脚本不要求批量重写。

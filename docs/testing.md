@@ -45,6 +45,19 @@ await qa(page, {
 
 单文件相关 QA 需要 `singleFileUrl`；其余 QA 使用已打开本地预览的 `page`。实际截图和帧率应注明设备、视口及测试场景。
 
+## Pages 发布目录验收
+
+```sh
+python3 tools/build-pages.py
+python3 -m http.server 8000 --directory dist/pages
+```
+
+在 `http://127.0.0.1:8000/` 执行浏览器验收，确认 `courtyard.gltf` 和各个本地 `.bin` 请求成功，
+建筑与角色载入、五类构件和昼夜切换正常。加载失败测试需拦截发布模型的 `.gltf` 或 `.bin` URL，
+源码预览仍拦截 `courtyard.glb`。单元测试检查逐个 buffer view 的字节与完整模型元数据不变、
+中文/空格路径、异地工作目录、旧产物清理和文件上限；CI 在 Linux、Windows 构建 Pages 目录。
+本地构建或浏览器通过不等于 Cloudflare 实际部署成功，远端结果需另行确认。
+
 ## Unity 验收
 
 ```sh

@@ -39,6 +39,8 @@ jobs:
         run: python tools/check-project.py
       - name: Run unit tests
         run: python -m unittest discover -s tests -p "test_*.py" -v
+      - name: Build Pages preview and check asset sizes
+        run: python tools/build-pages.py
       - name: Parse Unity C# (not an Editor compile)
         shell: pwsh
         run: ./tools/check-unity-csharp-syntax.ps1 -OutputPath tests/results/checks/unity-csharp-syntax.json
