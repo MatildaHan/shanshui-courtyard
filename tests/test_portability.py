@@ -138,7 +138,9 @@ class MCPPathTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='MCP path ') as folder:
             executable = Path(folder) / 'mcp-for-unity'
             executable.touch()
-            self.assertEqual(module.resolve_server(str(executable)), str(executable.resolve()))
+            # Windows temp paths can use an 8.3 alias such as RUNNER~1.
+            # Both spellings must identify the same executable.
+            self.assertTrue(Path(module.resolve_server(str(executable))).samefile(executable))
         with self.assertRaises(FileNotFoundError):
             module.resolve_server('/nonexistent/mcp-for-unity')
 
